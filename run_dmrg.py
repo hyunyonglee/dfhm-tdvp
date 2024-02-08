@@ -133,7 +133,7 @@ if __name__ == "__main__":
     psi = MPS.from_product_state(DFHM.lat.mps_sites(), product_state, bc=DFHM.lat.bc_MPS)
 
     if RM == 'random':
-        TEBD_params = {'N_steps': 10, 'trunc_params':{'chi_max': 30}, 'verbose': 0}
+        TEBD_params = {'N_steps': 10, 'trunc_params':{'chi_max': 100}, 'verbose': 0}
         eng = tebd.RandomUnitaryEvolution(psi, TEBD_params)
         eng.run()
         psi.canonical_form() 
@@ -150,7 +150,7 @@ if __name__ == "__main__":
         'chi_max': chi,
         'svd_min': 1.e-9
     },
-    'chi_list': { 0: 8, 5: 16, 10: 32, 15: 64, 20: chi },
+    'chi_list': { 0: 32, 15: 64, 20: chi },
     'max_E_err': 1.0e-9,
     'max_S_err': 1.0e-9,
     'max_sweeps': max_sweep,
