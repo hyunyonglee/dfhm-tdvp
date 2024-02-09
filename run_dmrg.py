@@ -63,7 +63,7 @@ def write_data( psi, E, EE, Nu, Nd, cor_dipole_uu, cor_dipole_dd, cor_dipole_ud,
     
     #
     file = open(path+"/observables.txt","a", 1)    
-    file.write(repr(t) + " " + repr(tp) + " " + repr(U) + " " + repr(E) + " " + repr(np.max(EE)) + " " + repr(np.mean(Nu)) + " " + repr(np.mean(Nd)) + " " + "\n")
+    file.write(repr(t) + " " + repr(tp) + " " + repr(U) + " " + repr(E) + " " + repr(np.max(EE)) + " " + "\n")
     file.close()
 
     file_corr_uu = open(path+"/observables/corr_dipole_uu.txt","a", 1)
@@ -133,24 +133,29 @@ if __name__ == "__main__":
     psi = MPS.from_product_state(DFHM.lat.mps_sites(), product_state, bc=DFHM.lat.bc_MPS)
 
     if RM == 'random':
-        TEBD_params = {'N_steps': 10, 'trunc_params':{'chi_max': 100}, 'verbose': 0}
+        TEBD_params = {'N_steps': 10, 'trunc_params':{'chi_max': 50}, 'verbose': 0}
         eng = tebd.RandomUnitaryEvolution(psi, TEBD_params)
         eng.run()
         psi.canonical_form() 
 
+    chi_list = {}
+    dchi = int((chi - 50)/10)
+    for i in range(11):
+        chi_list[5*i] = 50 + i*dchi
+    
     dmrg_params = {
     # 'mixer': True,  # setting this to True helps to escape local minima
     'mixer' : dmrg.SubspaceExpansion,
     'mixer_params': {
-        'amplitude': 1.e-3,
+        'amplitude': 1.e-2,
         'decay': 1.5,
-        'disable_after': 30
+        'disable_after': 20
     },
     'trunc_params': {
         'chi_max': chi,
         'svd_min': 1.e-9
     },
-    'chi_list': { 0: 64, 10: 128, 20: chi },
+    'chi_list': chi_list,
     'max_E_err': 1.0e-9,
     'max_S_err': 1.0e-9,
     'max_sweeps': max_sweep,
