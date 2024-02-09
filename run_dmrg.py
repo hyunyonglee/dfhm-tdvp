@@ -145,27 +145,28 @@ if __name__ == "__main__":
     
     dmrg_params = {
     # 'mixer': True,  # setting this to True helps to escape local minima
-    'mixer' : dmrg.SubspaceExpansion,
-    'mixer_params': {
-        'amplitude': 1.e-2,
-        'decay': 1.5,
-        'disable_after': 20
-    },
-    'trunc_params': {
-        'chi_max': chi,
-        'svd_min': 1.e-9
-    },
-    'chi_list': chi_list,
-    'max_E_err': 1.0e-9,
-    'max_S_err': 1.0e-9,
-    'max_sweeps': max_sweep,
-    'combine' : True,
-    'lanczos_params': {
-        'N_max': 3,  # fix the number of Lanczos iterations: the number of `matvec` calls
-        'N_min': 3,
-        'N_cache': 20,  # keep the states during Lanczos in memory
-        'reortho': False
-    },
+        'mixer' : dmrg.SubspaceExpansion,
+        'mixer_params': {
+            'amplitude': 1.e-2,
+            'decay': 1.5,
+            'disable_after': 20
+        },
+        'trunc_params': {
+            'chi_max': chi,
+            'svd_min': 1.e-9
+        },
+        'chi_list': chi_list,
+        'max_E_err': 1.0e-9,
+        'max_S_err': 1.0e-9,
+        'max_sweeps': max_sweep,
+        'combine' : True,
+        'diag_method': 'lanczos',
+        'lanczos_params': {
+            'N_max': 3,  # fix the number of Lanczos iterations: the number of `matvec` calls
+            'N_min': 3,
+            'N_cache': 20,  # keep the states during Lanczos in memory
+            'reortho': False
+        }
     }
 
     # ground state
